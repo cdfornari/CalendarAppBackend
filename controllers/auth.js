@@ -8,7 +8,7 @@ const crearUsuario = async (req,res)=>{
         let user = await User.findOne({email});
         if(user){
             return res.status(400).json({
-                ok: true,
+                ok: false,
                 msg: 'Ya existe usuario con ese correo'
             })
         }
@@ -37,13 +37,13 @@ const login = async (req,res)=>{
         const user = await User.findOne({email});
         if(!user){
             return res.status(400).json({
-                ok: true,
+                ok: false,
                 msg: 'No existe usuario con ese correo'
             })
         }
         const validPassword = bcrypt.compareSync(password,user.password);
         if(!validPassword){
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 msg: 'Contraseña incorrecta'
             })
